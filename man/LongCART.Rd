@@ -1,13 +1,13 @@
 \name{LongCART}
 \alias{LongCART}
 \title{Longitudinal CART with continuous response via binary partitioning}
-\description{Recursive partitioning for linear mixed effects model with continuous 
-univariate response variables per LonCART algorithm based on baseline partitioning 
+\description{Recursive partitioning for linear mixed effects model with continuous
+univariate response variables per LonCART algorithm based on baseline partitioning
 variables (Kundu and Harezlak, 2019).
 }
 \usage{
-LongCART(data, patid, fixed, gvars, tgvars, minsplit=40, 
-         minbucket=20, alpha=0.05, coef.digits=2, print.lme=F)
+LongCART(data, patid, fixed, gvars, tgvars, minsplit=40,
+         minbucket=20, alpha=0.05, coef.digits=2, print.lme=FALSE)
 }
 \arguments{
 \item{data}{name of the dataset. It must contain variable specified for \code{patid} (indicating subject id), all the variables specified in the formula and the baseline partitioning variables.}
@@ -24,8 +24,8 @@ LongCART(data, patid, fixed, gvars, tgvars, minsplit=40,
 \details{
 Construct regression tree based on heterogeneity in linear mixed effects models of following type:
 \code{Y_i(t)= W_i(t)theta + b_i + epsilon_{it}}
-where \code{W_i(t)} is the design matrix, \code{theta} is the parameter associated with \code{W_i(t)} and \code{b_i} is the random intercept. 
-Also, \code{epsilon_{it} ~  N(0,sigma ^2)} and \code{b_i ~ N(0, sigma_u^2)}. 
+where \code{W_i(t)} is the design matrix, \code{theta} is the parameter associated with \code{W_i(t)} and \code{b_i} is the random intercept.
+Also, \code{epsilon_{it} ~  N(0,sigma ^2)} and \code{b_i ~ N(0, sigma_u^2)}.
 }
 \value{
 \item{Treeout}{contains summary information of tree fitting for each terminal nodes and non-terminal nodes. Columns of \code{Treeout} include "ID", the (unique) node numbers that follow a binary ordering indexed by node depth, \code{n}, the number of observations reaching the node, \code{yval}, the fitted model of the response at the node, var, a factor giving the names of the variables used in the split at each, \code{index}, the cut-off value of splitting variable for binary partitioning, \code{p (Instability)}, the p-value for parameter instability test for the splitting variable, \code{loglik}, the log-likelihood of the node, \code{improve},  the improvement in deviance given by this split, and \code{Terminal},  indicator (True or False) of terminal node.  }
@@ -50,15 +50,15 @@ Also, \code{epsilon_{it} ~  N(0,sigma ^2)} and \code{b_i ~ N(0, sigma_u^2)}.
 Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data with baseline covariates. Biostatistics & Epidemiology, 3(1):1-22.
 }
 \seealso{
-\code{\link{plotLongCART}}, \code{\link{textLongCART}}, \code{\link{StabCat}}, \code{\link{StabCont}} 
+\code{\link{plotLongCART}}, \code{\link{textLongCART}}, \code{\link{StabCat}}, \code{\link{StabCont}}
 }
 
 \examples{
 #--- Get the data
 data(ACTG175)
-                
+
 #--- Run LongCART()
-gvars=c("age", "gender", "wtkg", "hemo", "homo", "drugs", 
+gvars=c("age", "gender", "wtkg", "hemo", "homo", "drugs",
         "karnof", "oprior", "z30", "zprior", "race",
         "str2", "symptom", "treat", "offtrt")
 tgvars=c(1, 0, 1, 0, 0, 0,
@@ -66,13 +66,13 @@ tgvars=c(1, 0, 1, 0, 0, 0,
          0, 0, 0, 0)
 
 \donttest{
-out<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time, 
-               gvars=gvars, tgvars=tgvars, alpha=0.05, 
+out<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time,
+               gvars=gvars, tgvars=tgvars, alpha=0.05,
                minsplit=100, minbucket=50, coef.digits=2)}
-               
+
 #--- Plot tree
 \donttest{
-par(xpd = T)
-plot(out, compress = T)
-text(out, use.n = T)}
+par(xpd = TRUE)
+plot(out, compress = TRUE)
+text(out, use.n = TRUE)}
 }
