@@ -12,8 +12,8 @@ textLongCART(x, splits = TRUE, all = FALSE,
 \item{x}{a fitted object of class \code{"LongCART"}, containing a linear mixed effects tree.}
 \item{splits}{similar to plot.rpart; logical flag. If \code{TRUE} (default),
 then the splits in the tree are labeled with the criterion for the split.}
-\item{all}{Logical. If TRUE, all nodes are labeled, otherwise just terminal nodes.}
-\item{use.n}{Logical. If TRUE, adds \code{n} to label.}
+\item{all}{similar to plot.rpart; Logical. If TRUE, all nodes are labeled, otherwise just terminal nodes.}
+\item{use.n}{similar to plot.rpart; Logical. If TRUE, adds \code{n} to label.}
 \item{minlength}{the length to use for factor labels. A value of 1 causes them to be printed as
 'a', 'b', ..... Larger values use abbreviations of the label names. See the labels.rpart function
 for details.}
@@ -30,25 +30,25 @@ Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data wi
 }
 
 \examples{
+\donttest{
 #--- Get the data
 data(ACTG175)
 
 #--- Run LongCART()
-gvars=c("age", "gender", "wtkg", "hemo", "homo", "drugs",
+gvars=c("gender", "wtkg", "hemo", "homo", "drugs",
         "karnof", "oprior", "z30", "zprior", "race",
         "str2", "symptom", "treat", "offtrt")
-tgvars=c(1, 0, 1, 0, 0, 0,
+tgvars=c(0, 1, 0, 0, 0,
          1, 0, 0, 0, 0,
          0, 0, 0, 0)
 
-\donttest{
 out<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time,
                gvars=gvars, tgvars=tgvars, alpha=0.05,
-               minsplit=100, minbucket=50, coef.digits=2)}
+               minsplit=100, minbucket=50, coef.digits=2)
 
 #--- Plot tree
-\donttest{
 par(xpd = TRUE)
 plot(out, compress = TRUE)
-text(out, use.n = TRUE)}
+text(out, use.n = TRUE)
+}
 }

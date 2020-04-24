@@ -54,25 +54,27 @@ Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data wi
 }
 
 \examples{
+\donttest{
 #--- Get the data
 data(ACTG175)
 
 #--- Run LongCART()
-gvars=c("age", "gender", "wtkg", "hemo", "homo", "drugs",
+gvars=c("gender", "wtkg", "hemo", "homo", "drugs",
         "karnof", "oprior", "z30", "zprior", "race",
         "str2", "symptom", "treat", "offtrt")
-tgvars=c(1, 0, 1, 0, 0, 0,
+tgvars=c(0, 1, 0, 0, 0,
          1, 0, 0, 0, 0,
          0, 0, 0, 0)
 
-\donttest{
+
 out<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time,
                gvars=gvars, tgvars=tgvars, alpha=0.05,
-               minsplit=100, minbucket=50, coef.digits=2)}
+               minsplit=100, minbucket=50, coef.digits=2)
 
 #--- Plot tree
-\donttest{
+
 par(xpd = TRUE)
 plot(out, compress = TRUE)
-text(out, use.n = TRUE)}
+text(out, use.n = TRUE)
+}
 }
