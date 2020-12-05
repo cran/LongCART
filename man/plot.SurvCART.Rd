@@ -1,16 +1,19 @@
-\name{plot.SurvCART}
-\alias{plot.SurvCART}
+\name{plot}
 \alias{plot}
-\title{Plot an SurvCART Object}
+\alias{plot.SurvCART}
+\alias{plot.LongCART}
+\title{Plot an SurvCART or LongCART Object}
 \description{
-Plots an SurvCART object on the current graphics device.
+Plots an SurvCART or LongCART object on the current graphics device.
 }
 \usage{
 \method{plot}{SurvCART}(x, uniform = FALSE, branch = 1, compress = FALSE, 
               nspace = branch, margin = 0, minbranch = 0.3, ...)
+\method{plot}{LongCART}(x, uniform = FALSE, branch = 1, compress = FALSE, 
+              nspace = branch, margin = 0, minbranch = 0.3, ...)
 }
 \arguments{
-\item{x}{a fitted object of class \code{"SurvCART"}, containing a survival tree.}
+\item{x}{a fitted object of class \code{"SurvCART"}, containing a survival tree or \code{"LongCART"}, containing a longitudinal tree.}
 \item{uniform}{similar to \code{plot.rpart}; if TRUE, uniform vertical spacing
  of the nodes is used; this may be less cluttered when fitting a large plot
 onto a page. The default is to use a non-uniform spacing proportional to the
@@ -45,7 +48,7 @@ The coordinates of the nodes are returned as a list, with components \code{x}
 Kundu, M. G.(2020). Survival trees based on score based parameter instability test. 
 }
 \seealso{
-\code{\link{text.SurvCART}}, \code{\link{SurvCART}}, \code{\link{KMPlot.SurvCART}}, \code{\link{StabCat.surv}}, \code{\link{StabCont.surv}}
+\code{\link{text}}, \code{\link{SurvCART}}, \code{\link{LongCART}}
 }
 
 

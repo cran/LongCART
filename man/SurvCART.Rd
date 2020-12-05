@@ -15,7 +15,7 @@ SurvCART(data, patid, timevar, censorvar, gvars, tgvars,
 \item{timevar}{name of the variable with follow-up times.}
 \item{censorvar}{name of the variable with censoring status.}
 \item{gvars}{list of partitioning variables of interest. Value of these variables should not change over time. Regarding categorical variables, only numerically coded categorical variables should be specified. For nominal categorical variables or factors, please first create corresponding dummy variable(s) and then pass through \code{gvars}. }
-\item{tgvars}{types (categorical or continuous) of partitioning variables specified in \code{gvar}. For each of continuous partitioning variables, specify \code{0} and for each of the categorical partitioning variables, specify \code{1}. Length of \code{tgvars} should match to the length of \code{gvars}}
+\item{tgvars}{types (categorical or continuous) of partitioning variables specified in \code{gvar}. For each of continuous partitioning variables, specify \code{1} and for each of the categorical partitioning variables, specify \code{0}. Length of \code{tgvars} should match to the length of \code{gvars}}
 \item{time.dist}{name of time-to-event distribution. It can be one of the following distributions: \code{"exponential"}, \code{"weibull"}, \code{"lognormal"} or \code{"normal"}.}
 \item{cens.dist}{name of censoring distribution. It can be one of the following distributions: \code{"exponential"}, \code{"weibull"}, \code{"lognormal"}, \code{"normal"} or \code{"NA"}. If specified \code{"NA"}, then parameter instability test corresponding to censoring distribution will not be performed.}
 \item{event.ind}{value of the censoring variable indicating event.}
@@ -81,6 +81,7 @@ par(xpd = TRUE)
 plot(out, compress = TRUE)
 text(out, use.n = TRUE)
 
+\donttest{
 #Plot KM plot for sub-groups identified by tree
 KMPlot.SurvCART(out, scale.time=365.25, type=1)
 
@@ -98,4 +99,5 @@ out<- SurvCART(data=GBSG2, patid="subjid", censorvar="cens", timevar="time",
         tgvars=c(0,1,0,1,0,1, 1,1),          
         time.dist="weibull", cens.dist="exponential", event.ind=1, 
         alpha=0.05, minsplit=80, minbucket=40, print=TRUE)
+}
 }

@@ -234,23 +234,23 @@ ret
 }
 
 
-StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
-               time.dist="exponential", cens.dist="exponential", event.ind=2, print=TRUE)
+#StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
+#               time.dist="exponential", cens.dist="exponential", event.ind=2, print=TRUE)
 
-StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
-               time.dist="weibull", cens.dist="weibull", event.ind=2, print=TRUE)
+#StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
+#               time.dist="weibull", cens.dist="weibull", event.ind=2, print=TRUE)
 
-StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
-               time.dist="lognormal", cens.dist="lognormal", event.ind=2, print=TRUE)
+#StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
+#               time.dist="lognormal", cens.dist="lognormal", event.ind=2, print=TRUE)
 
-StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
-               time.dist="gaussian", cens.dist="gaussian", event.ind=2, print=TRUE)
+#StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
+#               time.dist="gaussian", cens.dist="gaussian", event.ind=2, print=TRUE)
 
-StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
-               time.dist="gaussian", cens.dist="NA", event.ind=2, print=TRUE)
+#StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
+#               time.dist="gaussian", cens.dist="NA", event.ind=2, print=TRUE)
 
-StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
-               time.dist="gaussian", cens.dist="NA", event.ind=2, print=TRUE)
+#StabCont.surv(data=lung, timevar="time", censorvar="status", splitvar="age", 
+#               time.dist="gaussian", cens.dist="NA", event.ind=2, print=TRUE)
 
 
 

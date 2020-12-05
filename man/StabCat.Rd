@@ -39,7 +39,7 @@ where \code{C_g} is the any value realized by \code{X}.
 Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data with baseline covariates. Biostatistics & Epidemiology, 3(1):1-22.
 }
 \seealso{
-\code{\link{StabCont}}, \code{\link{LongCART}}, \code{\link{plotLongCART}}, \code{\link{textLongCART}}
+\code{\link{StabCont}}, \code{\link{LongCART}}, \code{\link{plot.LongCART}}, \code{\link{text.LongCART}}
 }
 
 \examples{

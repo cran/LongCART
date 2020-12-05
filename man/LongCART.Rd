@@ -14,7 +14,7 @@ LongCART(data, patid, fixed, gvars, tgvars, minsplit=40,
 \item{patid}{name of the subject id variable.}
 \item{fixed}{a two-sided linear formula object describing the fixed-effects part of the model, with the response on the left of a \code{~ }operator and the terms, separated by \code{+} operators, on the right. Model with \code{-1} to the end of right side indicates no intercept. For model with no fixed effect beyond intercept, please specify only \code{1} right to the \code{~} operator.}
 \item{gvars}{list of partitioning variables of interest. Value of these variables should not change over time. Regarding categorical variables, only numerically coded categorical variables should be specified. For nominal categorical variables or factors, please first create corresponding dummy variable(s) and then pass through \code{gvars}. }
-\item{tgvars}{types (categorical or continuous) of partitioning variables specified in \code{gvar}. For each of continuous partitioning variables, specify \code{0} and for each of the categorical partitioning variables, specify \code{1}. Length of \code{tgvars} should match to the length of \code{gvars}}
+\item{tgvars}{types (categorical or continuous) of partitioning variables specified in \code{gvar}. For each of continuous partitioning variables, specify \code{1} and for each of the categorical partitioning variables, specify \code{0}. Length of \code{tgvars} should match to the length of \code{gvars}}
 \item{minsplit}{the minimum number of observations that must exist in a node in order for a split to be attempted.}
 \item{minbucket}{he minimum number of observations in any terminal node.}
 \item{alpha}{alpha (i.e., nominal type I error) level for parameter instability test}
@@ -50,7 +50,7 @@ Also, \code{epsilon_{it} ~  N(0,sigma ^2)} and \code{b_i ~ N(0, sigma_u^2)}.
 Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data with baseline covariates. Biostatistics & Epidemiology, 3(1):1-22.
 }
 \seealso{
-\code{\link{plotLongCART}}, \code{\link{textLongCART}}, \code{\link{StabCat}}, \code{\link{StabCont}}
+\code{\link{plot.LongCART}}, \code{\link{text.LongCART}}, \code{\link{ProfilePlot.LongCART}}, \code{\link{StabCat}}, \code{\link{StabCont}}
 }
 
 \examples{
@@ -58,7 +58,11 @@ Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data wi
 #--- Get the data
 data(ACTG175)
 
-#--- Run LongCART()
+#-----------------------------------------------#
+#   model: cd4~ time + subject(random)          #
+#-----------------------------------------------#
+
+#--- Run LongCART()  
 gvars=c("gender", "wtkg", "hemo", "homo", "drugs",
         "karnof", "oprior", "z30", "zprior", "race",
         "str2", "symptom", "treat", "offtrt")
@@ -67,14 +71,62 @@ tgvars=c(0, 1, 0, 0, 0,
          0, 0, 0, 0)
 
 
-out<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time,
-               gvars=gvars, tgvars=tgvars, alpha=0.05,
-               minsplit=100, minbucket=50, coef.digits=2)
+out1<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time,
+                gvars=gvars, tgvars=tgvars, alpha=0.05,
+                minsplit=100, minbucket=50, coef.digits=2)
 
 #--- Plot tree
-
+par(mfrow=c(1,1))
 par(xpd = TRUE)
-plot(out, compress = TRUE)
-text(out, use.n = TRUE)
+plot(out1, compress = TRUE)
+text(out1, use.n = TRUE)
+
+#--- Plot longitudinal profiles of subgroups
+par(mfrow=c(3,3))
+ProfilePlot.LongCART(x=out1, timevar="time")
+
+#-----------------------------------------------#
+#   model: cd4~ time+ time^2 + subject(random)  #
+#-----------------------------------------------#
+
+ACTG175$time2<- ACTG175$time^2
+
+out2<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time + time2,
+                gvars=gvars, tgvars=tgvars, alpha=0.05,
+                minsplit=100, minbucket=50, coef.digits=2)
+
+
+par(mfrow=c(1,1))
+par(xpd = TRUE)
+plot(out2, compress = TRUE)
+text(out2, use.n = TRUE)
+
+par(mfrow=c(3,3))
+ProfilePlot.LongCART(x=out2, timevar="time", timevar.power=c(1,2))
+
+
+#--------------------------------------------------------#
+#   model: cd4~ time+ time^2 + subject(random) + karnof  #
+#--------------------------------------------------------#
+
+out3<- LongCART(data=ACTG175, patid="pidnum", fixed=cd4~time + time2 + karnof,
+                gvars=gvars, tgvars=tgvars, alpha=0.05,
+                minsplit=100, minbucket=50, coef.digits=2)
+
+
+par(mfrow=c(1,1))
+par(xpd = TRUE)
+plot(out3, compress = TRUE)
+text(out3, use.n = TRUE)
+
+#the value of the covariate karnof is set at median by default
+par(mfrow=c(3,3))
+ProfilePlot.LongCART(x=out3, timevar="time", timevar.power=c(1,2, NA)) 
+
+#the value of the covariate karnof is set at 120
+par(mfrow=c(3,3))
+ProfilePlot.LongCART(x=out3, timevar="time", timevar.power=c(1,2, NA), 
+                     covariate.val=c(NA, NA, 120)) 
+
 }
 }

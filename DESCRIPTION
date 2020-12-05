@@ -2,8 +2,8 @@ Package: LongCART
 Type: Package
 Title: Recursive Partitioning for Longitudinal Data and Right Censored
         Data Using Baseline Covariates
-Version: 2.0
-Date: 2020-04-24
+Version: 2.1
+Date: 2020-12-04
 Author: Madan G Kundu
 Maintainer: Madan G Kundu <madan_g.kundu@yahoo.com>
 Depends: R (>= 3.4.0), nlme, rpart, survival, magic, survminer
@@ -13,6 +13,6 @@ License: GPL (>= 2)
 URL: https://www.r-project.org
 BugReports: https://github.com/madanstat/LongCART/issues
 NeedsCompilation: no
-Packaged: 2020-04-24 10:10:55 UTC; mgkundu
+Packaged: 2020-12-05 05:01:17 UTC; mgkundu
 Repository: CRAN
-Date/Publication: 2020-04-24 23:10:02 UTC
+Date/Publication: 2020-12-05 10:00:03 UTC

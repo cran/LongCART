@@ -1,16 +1,19 @@
-\name{text.SurvCART}
-\alias{text.SurvCART}
+\name{text}
 \alias{text}
-\title{Place text on SurvCART tree}
+\alias{text.SurvCART}
+\alias{text.LongCART}
+\title{Place text on SurvCART or LongCART tree}
 \description{
-Labels the current plot of the tree generated from SurvCART object with text.
+Labels the current plot of the tree generated from SurvCART or LongCART object with text.
 }
 \usage{
 \method{text}{SurvCART}(x, splits = TRUE, all = FALSE,
              use.n = FALSE, minlength = 1L, ...)
+\method{text}{LongCART}(x, splits = TRUE, all = FALSE,
+             use.n = FALSE, minlength = 1L, ...)
 }
 \arguments{
-\item{x}{a fitted object of class \code{"SurvCART"}, containing a survival tree.}
+\item{x}{a fitted object of class \code{"SurvCART"}, containing a survival tree, or class \code{"LongCART"}, containing a longitudinal tree.}
 \item{splits}{similar to text.rpart; 
 logical flag. If \code{TRUE} (default), then the splits in the tree are labeled with the criterion for the split.}
 \item{all}{similar to text.rpart; 
@@ -28,7 +31,7 @@ the length to use for factor labels. A value of 1 causes them to be printed as '
 Kundu, M. G.(2020). Survival trees based on score based parameter instability test. 
 }
 \seealso{
-\code{\link{plot.SurvCART}}, \code{\link{SurvCART}}, \code{\link{KMPlot.SurvCART}}, \code{\link{StabCat.surv}}, \code{\link{StabCont.surv}}
+\code{\link{plot}}, \code{\link{SurvCART}}, \code{\link{LongCART}}
 }
 
 \examples{

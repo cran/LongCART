@@ -239,23 +239,24 @@ ret
 }
 
 
-StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
-               time.dist="exponential", cens.dist="exponential", event.ind=2, print=TRUE)
 
-StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
-               time.dist="weibull", cens.dist="weibull", event.ind=2, print=TRUE)
+#StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
+#               time.dist="exponential", cens.dist="exponential", event.ind=2, print=TRUE)
 
-StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
-               time.dist="lognormal", cens.dist="lognormal", event.ind=2, print=TRUE)
+#StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
+#               time.dist="weibull", cens.dist="weibull", event.ind=2, print=TRUE)
 
-StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
-               time.dist="gaussian", cens.dist="gaussian", event.ind=2, print=TRUE)
+#StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
+#               time.dist="lognormal", cens.dist="lognormal", event.ind=2, print=TRUE)
 
-StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
-               time.dist="gaussian", cens.dist="NA", event.ind=2, print=TRUE)
+#StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
+#               time.dist="gaussian", cens.dist="gaussian", event.ind=2, print=TRUE)
 
-StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
-               time.dist="gaussian", cens.dist="exponential", event.ind=2, print=TRUE)
+#StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
+#               time.dist="gaussian", cens.dist="NA", event.ind=2, print=TRUE)
+
+#StabCat.surv(data=lung, timevar="time", censorvar="status", splitvar="sex", 
+#               time.dist="gaussian", cens.dist="exponential", event.ind=2, print=TRUE)
 
 
 
