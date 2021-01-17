@@ -18,17 +18,17 @@ StabCont(data, patid, fixed, splitvar)
 \details{
 The continuous partitioning variable of interest. It's value should not change over time.
 
-\code{Y_i(t)= W_i(t)theta + b_i + epsilon_{it}}
+\deqn{Y_i(t)= W_i(t)theta + b_i + epsilon_{it}}
 
-where \code{W_i(t)} is the design matrix, \code{theta} is the parameter associated with 
-\code{W_i(t)} and \code{b_i} is the random intercept. Also, \code{epsilon_{it} ~  N(0,sigma ^2)} 
-and \code{b_i ~ N(0, sigma_u^2)}. Let \code{X} be the baseline continuous partitioning 
+where \eqn{W_i(t)} is the design matrix, \code{theta} is the parameter associated with 
+\eqn{W_i(t)} and \code{b_i} is the random intercept. Also, \eqn{epsilon_{it} ~  N(0,sigma ^2)} 
+and \eqn{b_i ~ N(0, sigma_u^2)}. Let \eqn{X} be the baseline continuous partitioning 
 variable of interest. \code{StabCont()} performs the following omnibus test
 
-\code{H_0:theta_{(g)}=theta_0} vs. \code{H_1: theta_{(g)} ^= theta_0},     for all g
+\eqn{H_0:theta_{(g)}=theta_0} vs. \eqn{H_1: theta_{(g)} ^= theta_0},     for all g
 
-where, \code{theta_{(g)}} is the true value of \code{theta} for subjects with \code{X=C_g} 
-where \code{C_g} is the any value realized by \code{X}.
+where, \eqn{theta_{(g)}} is the true value of \eqn{theta} for subjects with \eqn{X=C_g} 
+where \eqn{C_g} is the any value realized by \eqn{X}.
 }
 \value{
 \item{p}{It returns the p-value for parameter instability test}

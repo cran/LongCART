@@ -17,7 +17,7 @@ ProfilePlot.LongCART(x, timevar, timevar.power=NULL, covariate.val=NULL,
   \item{covariate.val}{Specify the covariate values for generation of longitudinal profile plot. Iin the longitudinal profile plot, only time can vary and therefore, and therefore the value for the other covariates are fixed at constant value. This is not needed if the longitudinal model does not contain additional covariate(s). By default, the covariates values are specified at median value over all the datapoint (not at the subject level).  For example, if the fixed part of the model is t + cov1, then \code{c(NA, 100)} sets the value of cov1 at 100. Similarly, If fixed part of the model is t + t^2 + cov1, then \code{c(NA, NA, 100)} would be acceptable.}
   \item{xlab}{Optional label for X-axis}
   \item{ylab}{Optional label for Y-axis}
-  \item{sg.title}{1 for sub-groups' title as \code{Sub-group=x}, 2 for sub-groups' title as \code{Node=x}, and 32 for sub-groups' title as \code{Sub-group=x (Node=x)}.}
+  \item{sg.title}{1 for sub-groups' title as \code{Sub-group=x}, 2 for sub-groups' title as \code{Node=x}, and 3 for sub-groups' title as \code{Sub-group=x (Node=x)}.}
   \item{...}{Graphical parameters other than \code{x, y, type, xlab, ylab}.}
 }
 \author{ Madan Gopal Kundu \email{madan_g.kundu@yahoo.com}}
