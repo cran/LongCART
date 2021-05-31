@@ -75,7 +75,7 @@ if(D>0 & time.dist=="weibull"){
                      ",  Estimated alpha=", round(alpha1, 5), 
                      ",  Estimated Median=", round(median1, 3), 
                      "  (KM estimate=", round(median1.obs, 3), ")\n", appendLF=FALSE)
-}
+}else
 if(D>0 & (time.dist=="lognormal"| time.dist=="gaussian")){
    fit1<- survreg(Surv(timevar, censorvar) ~ 1, data = data.t, dist = time.dist)
    mu1<- fit1$coeff  #mulog

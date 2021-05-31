@@ -9,14 +9,14 @@ SurvCART<- function(data, patid, timevar, censorvar, gvars, tgvars,
 #--------------------------------------------------------#
 #   Summary of survival data in each node      		   #
 #--------------------------------------------------------#
-nodesummary<- function(data, censorvar, timevar, event.ind, print=FALSE){
+nodesummary<- function(data, censorvar, timevar, event.ind, time.dist, print=FALSE){
 	Time<- data[[timevar]]
 	Delta<- data[[censorvar]]
 
 	D<- sum(I(Delta==event.ind)) #number of events
 	N=nrow(data) #number of subjects
-	lambda1=D/sum(Time)
-	lambda2=(N-D)/sum(Time)
+	#lambda1=D/sum(Time)
+	#lambda2=(N-D)/sum(Time)
   
 	km.obj1=survfit(Surv(Time, Delta == event.ind) ~ 1, conf.type = "log-log")
 	median1=summary(km.obj1)$table["median"]
@@ -36,9 +36,11 @@ nodesummary<- function(data, censorvar, timevar, event.ind, print=FALSE){
 
 	message("\n", appendLF=FALSE)
 	}
-	loglik<- coxph(Surv(Time, I(Delta==event.ind)) ~ 1)$loglik
-        
-	ret<- c(N=N, D=D, median1, median2, loglik)
+	#loglik<- coxph(Surv(Time, I(Delta==event.ind)) ~ 1)$loglik #--- loglikelihood based on Cox model
+	fit.model<- survreg(Surv(Time, I(Delta==event.ind)) ~ 1, dist=time.dist)
+	loglik<- c(logLik(fit.model)) #--- log-likelihood based on fitted parametric model
+	AIC<- c(AIC(fit.model)) #--- log-likelihood based on fitted parametric model
+	ret<- c(N=N, D=D, median1, median2, loglik, AIC)
 	ret
 }
 
@@ -46,12 +48,16 @@ nodesummary<- function(data, censorvar, timevar, event.ind, print=FALSE){
 #--------------------------------------------------------#
 #   Choosing best split	(based on logrank test)		   #
 #--------------------------------------------------------#
-single.group<- function(data, timevar, censorvar, event.ind, splitvar, type, minbucket){
+single.group<- function(data, timevar, censorvar, event.ind, time.dist, splitvar, type, minbucket){
 	spvar<- data[[splitvar]]
 	data.t<- data[!is.na(spvar),]
 	Time<- data.t[[timevar]]
 	Delta<- data.t[[censorvar]] 
 	Group<- data.t[[splitvar]]
+
+	#--- Fitting parameteric model in the overall data at the current node
+	fit.model<- 
+	loglik.full<- c(logLik(survreg(Surv(Time, I(Delta==event.ind)) ~ 1, dist=time.dist))) #--- log-likelihood based on fitted parametric model
 
 	if(type==1){
       	event<- I(Delta==event.ind)*1
@@ -83,8 +89,9 @@ single.group<- function(data, timevar, censorvar, event.ind, splitvar, type, min
       message(".\n", appendLF=FALSE)
 	if(any(!is.na(logrank.vec))) {
 		xcut<- vals[which.max(logrank.vec)]
-	      improve<- coxph(Surv(Time, I(Delta==event.ind)) ~ strata(I(Group<xcut)))$loglik- 
-                  coxph(Surv(Time, I(Delta==event.ind)) ~ 1)$loglik
+		loglik.left<- c(logLik(survreg(Surv(Time, I(Delta==event.ind)) ~ 1, subset=(Group<xcut), dist=time.dist))) 
+                loglik.right<- c(logLik(survreg(Surv(Time, I(Delta==event.ind)) ~ 1, subset=(Group>=xcut), dist=time.dist))) 
+	        improve<- loglik.left + loglik.right - loglik.full
        }
 	ret<- list(xcut=xcut, improve=improve)
 	ret
@@ -130,7 +137,7 @@ bestsplit<- function (data, censorvar, timevar, time.dist, cens.dist, event.ind,
 		best.gvar.type<- stab.res[sel.v,2]
 		message('\n***Selected Splitting variable:', best.gvar, '***\n', appendLF=FALSE)
 		if (min.pval.adj<alpha){
-	          best.cut<- single.group(data, timevar, censorvar, event.ind, best.gvar, best.gvar.type, minbucket) 
+	          best.cut<- single.group(data, timevar, censorvar, event.ind, time.dist, best.gvar, best.gvar.type, minbucket) 
 		  best.cutoff<- best.cut$xcut
 		  improve<- best.cut$improve
               if(is.na(improve)){
@@ -160,7 +167,7 @@ rsplit<- function(data, censorvar, timevar, time.dist, cens.dist, event.ind, gva
 
 	if (id==1) {
 		env$idlist<- list(unique(data[['patid']]))          
-		env$Treeout<- data.frame(id=id, N=nodeout[1], D=nodeout[2], median1=nodeout[3], median2=nodeout[4], loglik=nodeout[5], 
+		env$Treeout<- data.frame(id=id, N=nodeout[1], D=nodeout[2], median1=nodeout[3], median2=nodeout[4], loglik=nodeout[5], AIC=nodeout[6], 
                                          splitvar=s.var, cutoff=s.cut, pstab=s.pval, improve=s.improve, stringsAsFactors = FALSE)
 		}
 	else {
@@ -180,7 +187,7 @@ rsplit<- function(data, censorvar, timevar, time.dist, cens.dist, event.ind, gva
 		left.subj<- nrow(data_l)	
 		message("No. of subjects in left node: ", left.subj, ' \n', appendLF=FALSE)
 		
-		nodeout<- nodesummary(data=data_l, censorvar=censorvar, timevar=timevar, event.ind=event.ind, print=print)
+		nodeout<- nodesummary(data=data_l, censorvar=censorvar, timevar=timevar, event.ind=event.ind, time.dist=time.dist, print=print)
 
 		if (left.subj>=minsplit){
 			message ("\nDECISION: Go to the next level \n", appendLF=FALSE)
@@ -201,7 +208,7 @@ rsplit<- function(data, censorvar, timevar, time.dist, cens.dist, event.ind, gva
 		right.subj<- nrow(data_r)	
 		message("No. of subjects in right node: ", right.subj, " \n", appendLF=FALSE)
 
-		nodeout<- nodesummary(data=data_r, censorvar=censorvar, timevar=timevar, event.ind=event.ind, print=print)
+		nodeout<- nodesummary(data=data_r, censorvar=censorvar, timevar=timevar, event.ind=event.ind, time.dist=time.dist, print=print)
 
 		if (right.subj>=minsplit){
 			message("\nDECISION: Go to the next level \n", appendLF=FALSE)
@@ -271,7 +278,7 @@ rsplit<- function(data, censorvar, timevar, time.dist, cens.dist, event.ind, gva
 	message("No. of subjects in root node: ", nrow(data), ' \n', appendLF=FALSE)
 
 	#Summarize root node
-	rootout<- nodesummary(data, censorvar, timevar, event.ind, print)
+	rootout<- nodesummary(data, censorvar, timevar, event.ind, time.dist=time.dist, print)
 
 	#Find out the best split at root node
 	split<- bestsplit(data, censorvar, timevar, time.dist, cens.dist, event.ind, gvars, tgvars, 1, minbucket, alpha)
@@ -281,9 +288,10 @@ rsplit<- function(data, censorvar, timevar, time.dist, cens.dist, event.ind, gva
              minsplit, minbucket, print, rootout,  env=SurvCART.env)
 
 	Treeout<- SurvCART.env$Treeout
-	colnames(Treeout)<- c("ID", "n", "D", "median.T", "median.C", "loglik", "var", "index", "p (Instability)", "improve")
+	colnames(Treeout)<- c("ID", "n", "D", "median.T", "median.C", 
+                              "loglik", "AIC", "var", "index", "p (Instability)", 
+                              "improve")
 	row.names(Treeout)<- NULL
-
 
 	Treeout[,1]<- as.numeric(Treeout[,1])
 	Treeout[,2]<- as.numeric(Treeout[,2])
@@ -291,10 +299,11 @@ rsplit<- function(data, censorvar, timevar, time.dist, cens.dist, event.ind, gva
 	Treeout[,4]<- round(as.numeric(Treeout[,4]), digits=3)
 	Treeout[,5]<- round(as.numeric(Treeout[,5]), digits=3)
 	Treeout[,6]<- round(as.numeric(Treeout[,6]), digits=1)
-	Treeout[,9]<- round(as.numeric(Treeout[,9]), digits=3)
-	Treeout[,8]<- round(as.numeric(Treeout[,8]))
-	Treeout[,10]<- round(as.numeric(Treeout[,10]), digits=1)
-	Treeout$Terminal<- ifelse(is.na(Treeout[,8]), TRUE, FALSE)
+	Treeout[,7]<- round(as.numeric(Treeout[,7]), digits=1)
+	Treeout[,9]<- round(as.numeric(Treeout[,9]))
+	Treeout[,10]<- round(as.numeric(Treeout[,10]), digits=3)
+	Treeout[,11]<- round(as.numeric(Treeout[,11]), digits=1)
+	Treeout$Terminal<- ifelse(is.na(Treeout[,9]), TRUE, FALSE)
         print(Treeout)
 
 	#Assigning information to the subject
@@ -302,29 +311,28 @@ rsplit<- function(data, censorvar, timevar, time.dist, cens.dist, event.ind, gva
 	idlist<- SurvCART.env$idlist
 	subj.class<- NULL
 	for(i in 1:length(sel)) {
-		temp<-Treeout[sel[i], c(1,2,4, 5)]
+		temp<-Treeout[sel[i], c("ID", "n", "median.T", "median.C")]
 		rownames(temp)<- NULL
 		subj.class<- rbind(subj.class, cbind(idlist[[sel[i]]], temp))
 		}
 
 	subj.class<- as.data.frame(subj.class)
 	names(subj.class)<- c(patid, 'node', 'n', 'median.T', 'median.C')
-      subj.class<- merge(subj.class, data[,c(patid, timevar, censorvar)], by=patid)
+        subj.class<- merge(subj.class, data[,c(patid, timevar, censorvar)], by=patid)
 
 	#Statistics for measuring improvment in TREE
-	logLik.tree<- sum(Treeout[,6]*Treeout[,11])
-	logLik.root<- Treeout[1,6]
-      improve.loglik<- logLik.tree-logLik.root
-	AIC.root<- 2*logLik.root
-	AIC.tree<- 2*logLik.tree - 2*(sum(Treeout[,11])-1)
+	logLik.tree<- sum(Treeout$loglik*Treeout$Terminal)
+	logLik.root<- Treeout[1,"loglik"]
+        improve.loglik<- logLik.tree-logLik.root
+	AIC.tree<- sum(Treeout$AIC*Treeout$Terminal)
+	AIC.root<- Treeout[1,"AIC"]
 
-	message('logLikelihood (tree)=', logLik.tree, '   logLikelihood (root)=', logLik.root, '\n', appendLF=FALSE)
-	message('AIC (root)=', AIC.root, ' (based on Cox model without any covariate)\n', appendLF=FALSE)
-	message('AIC (tree)=', AIC.tree, ' (based on Cox model with subgroup as only covariate; higher the AIC, better)\n', appendLF=FALSE)
+	message('logLikelihood (root)=', logLik.root, '   logLikelihood (tree)=', logLik.tree, '\n', appendLF=FALSE)
+	message('AIC (root)=', AIC.root, '    AIC (tree)=', AIC.tree, '\n', appendLF=FALSE)
 
 	#--- Create FRAME, SPLITS, CPTABLE and FUNCTIONS objects for using PLOT.RPART
 	Treeout1<- as.data.frame(Treeout[,c("ID", "var", "n", "D", "median.T", "median.C",
-	                                    "loglik", "Terminal", "index", "improve")])
+	                                    "loglik", "AIC", "Terminal", "index", "improve")])
 	row.names(Treeout1)<- Treeout1$ID
 	Treeout1$var=ifelse(Treeout1$Terminal, "<leaf>",Treeout1$var)
       Treeout1$yval=paste("Med=",Treeout1$median.T, sep='')

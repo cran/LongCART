@@ -1,12 +1,12 @@
-78f1631e8a7302f586acb1fa98ff9ba5 *DESCRIPTION
+31f63b2d72364ba5e3f3c6c599666284 *DESCRIPTION
 3221a4010914ea8b71c7d5a9f821a76c *NAMESPACE
 71deef725cde6dd95fa8c414c2e207b5 *R/LongCART_02_Nov_20.R
 82868186a78839aa98a62adf2b133fbd *R/PPoS_betabinom1.R
 5a0af6416657991e21895b8fd8a7f5b0 *R/PPoS_betabinom2.R
 cfc7e39571f18f09c81b9ac050ba0b65 *R/PoS.R
-4af1de6e554d092ff790671f6b9af99a *R/StabCat_surv.R
-e6ca15d67bdee26a9f76b783fb750dcb *R/StabCont_surv.R
-ea62ad22648d9844f0453508137c11a1 *R/SurvCART.R
+1761911dc19cd407a5105fcf255b8027 *R/StabCat_surv.R
+94680c90b0337c48da9db040f1ee42df *R/StabCont_surv.R
+cf69451ccdb583b9204084d47bc2df95 *R/SurvCART_30May2021.R
 77739f8d097da369886cd07cad737bd3 *R/success_ia.R
 6b22123f9b5c38123348e45bfd4cb98e *data/ACTG175.rda
 dc5eff227763f6728c932da61c38dade *data/GBSG2.rda
@@ -20,7 +20,7 @@ c47cd44b0f8505a260bdac4cea5b682c *man/GBSG2.Rd
 6c1d6982db6911f2c943fccbb362d483 *man/StabCat.surv.Rd
 f4855116f77f68b864f1d5af1ce6dce7 *man/StabCont.Rd
 5a594549ec16d1c52f377e9278a548ae *man/StabCont.surv.Rd
-cdea97e85a143faed78c275eb4fe0dcd *man/SurvCART.Rd
+1974a264035a069fef9dbda452f14469 *man/SurvCART.Rd
 2f3397672ccee9b69cec7fa444bb0e5c *man/plot.SurvCART.Rd
 8f1a5a47c6b4afaa737027c5b14928c5 *man/succ_ia.Rd
 9c99dc6b87b4a049bd412a40a7d00db8 *man/succ_ia_betabinom_one.Rd

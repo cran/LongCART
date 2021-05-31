@@ -71,7 +71,7 @@ if(D>0 & time.dist=="weibull"){
                      ",  Estimated alpha=", round(alpha1, 5), 
                      ",  Estimated Median=", round(median1, 3), 
                      "  (KM estimate=", round(median1.obs, 3), ")\n", appendLF=FALSE)
-}
+}else
 if(D>0 & (time.dist=="lognormal"| time.dist=="gaussian")){
    fit1<- survreg(Surv(timevar, censorvar) ~ 1, data = data.t, dist = time.dist)
    mu1<- fit1$coeff  #mulog
@@ -178,7 +178,7 @@ if(ncensor>0 & cens.dist!="NA"){   #score function & J related to event time
       J22.inv<- matrix((N/(N-D))*lambda2^2,1,1)
       colnames(J22.inv)<- rownames(J22.inv)<- colnames(u2)<- c("lambda.C")
       p2<- p2+1; type<- c(type, 2); u<- cbind(u, u2)
-   }
+   } else
    if(cens.dist=="weibull"){
 	u21<- (1-delta)/lambda2-T^alpha2  
 	u22<- (1-delta)*(1/alpha2 + log(T))-lambda2*log(T)*(T^alpha2)
@@ -190,7 +190,7 @@ if(ncensor>0 & cens.dist!="NA"){   #score function & J related to event time
 	J22.inv<- solve(J22)
       colnames(J22.inv)<- rownames(J22.inv)<- colnames(u2)<-  c("lambda.C", "alpha.C")
       p2<- p2+2; type<- c(type, 2); u<- cbind(u, u2)
-   }
+   } else
    if(cens.dist=="lognormal"|cens.dist=="gaussian"){
       u21<- ((1-delta)*y2 + delta*h2)/sd2 
 	u22<- (1-delta)*(y2^2-1) + delta*y2*h2
