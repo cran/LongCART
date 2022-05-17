@@ -42,10 +42,10 @@ Normal distribution: f(t)=(1/sqrt(2*pi*sigma^2))*exp[-(1/2)*{(t-mu)/sigma}^2]
 \author{ Madan Gopal Kundu \email{madan_g.kundu@yahoo.com}}
 
 \references{
-Kundu, M. G.(2020). Survival trees based on score based parameter instability test. 
+Kundu, M. G., and Ghosh, S. (2021). Survival trees based on heterogeneity in time-to-event and censoring distributions using parameter instability test. Statistical Analysis and Data Mining: The ASA Data Science Journal, 14(5), 466-483. 
 }
 \seealso{
-\code{\link{StabCont.surv}}, \code{\link{SurvCART}}, \code{\link{plot.SurvCART}}, \code{\link{text.SurvCART}}
+\code{\link{StabCont.surv}}, \code{\link{SurvCART}}, \code{\link{plot}}, \code{\link{text}}
 }
 
 \examples{       

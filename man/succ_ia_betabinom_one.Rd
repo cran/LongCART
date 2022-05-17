@@ -35,18 +35,20 @@ succ_ia_betabinom_one(N, n, x,
 This function can be used to determine Predictive power or predictive probability of success (PPoS) based on the interim results for testing of population proportion. The calculation of PoS is carried out assuming beta prior distributions for proportion. This function can be used to determine clinical success (\code{succ.crit="clinical"}) and trial success (\code{succ.crit="trial"}). For clinical success, \code{clin.succ.threshold} must be specified. For trial success, \code{Z.crit.final or alpha.final} must be specified.
 }
 \author{Madan Gopal Kundu <madan_g.kundu@yahoo.com>}
-
+\references{
+Kundu, M. G., Samanta, S., and Mondal, S. (2021). An introduction to the determination of the probability of a successful trial: Frequentist and Bayesian approaches. arXiv preprint arXiv:2102.13550.
+}
 \seealso{\code{\link{succ_ia_betabinom_two}}, \code{\link{succ_ia}}, \code{\link{PoS}}   }
 
 \examples{
 succ_ia_betabinom_one( N=40, n=30, x=25, 
         null.value=0.6, alternative="greater", 
-        succ.crit = "trial", Z.crit.final = 1.96,  
+        succ.crit = "trial", alpha.final = 0.016,  
         a = 1, b=1) 
 
 succ_ia_betabinom_one( N=40, n=30, x=25, 
         null.value=0.6, alternative="greater", test="exact",
-        succ.crit = "trial", Z.crit.final = 1.96,  
+        succ.crit = "trial", alpha.final = 0.016,  
         a = 1, b=1) 
 
 succ_ia_betabinom_one( N=40, n=30, x=15, 

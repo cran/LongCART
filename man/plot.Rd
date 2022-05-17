@@ -45,7 +45,9 @@ The coordinates of the nodes are returned as a list, with components \code{x}
 \author{ Madan Gopal Kundu \email{madan_g.kundu@yahoo.com}}
 
 \references{
-Kundu, M. G.(2020). Survival trees based on score based parameter instability test. 
+Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data with baseline covariates. Biostatistics & Epidemiology, 3(1):1-22.
+
+Kundu, M. G., and Ghosh, S. (2021). Survival trees based on heterogeneity in time-to-event and censoring distributions using parameter instability test. Statistical Analysis and Data Mining: The ASA Data Science Journal, 14(5), 466-483.
 }
 \seealso{
 \code{\link{text}}, \code{\link{SurvCART}}, \code{\link{LongCART}}
@@ -53,6 +55,8 @@ Kundu, M. G.(2020). Survival trees based on score based parameter instability te
 
 
 \examples{
+\donttest{
+
 #--- Get the data
 data(GBSG2)
 
@@ -75,4 +79,5 @@ out<- SurvCART(data=GBSG2, patid="subjid", censorvar="cens", timevar="time", eve
 par(xpd = TRUE)
 plot(out, compress = TRUE)
 text(out, use.n = TRUE)
+}
 }

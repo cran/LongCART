@@ -38,7 +38,11 @@ Also, \code{epsilon_{it} ~  N(0,sigma ^2)} and \code{b_i ~ N(0, sigma_u^2)}.
 \item{Deviance}{2*(logLik.tree-logLik.root)}
 \item{LRT.df}{degrees of freedom for likelihood ratio test comparing tree-structured model with the model at root node.}
 \item{LRT.p}{p-value for likelihood ratio test comparing tree-structured model with the model at root node.}
-\item{subj.class}{Assigned node for each individual subjects per fitted longitudinal tree}
+\item{nodelab}{List of subgroups or terminal nodes with their description}
+\item{varnam}{List of splitting variables}
+\item{data}{the dataset originally supplied}
+\item{patid}{the patid variable originally supplied}
+\item{fixed}{the fixed part of the model originally supplied}
 \item{frame}{rpart compatible object}
 \item{splits}{rpart compatible object}
 \item{cptable}{rpart compatible object}
@@ -50,7 +54,7 @@ Also, \code{epsilon_{it} ~  N(0,sigma ^2)} and \code{b_i ~ N(0, sigma_u^2)}.
 Kundu, M. G., and Harezlak, J. (2019). Regression trees for longitudinal data with baseline covariates. Biostatistics & Epidemiology, 3(1):1-22.
 }
 \seealso{
-\code{\link{plot.LongCART}}, \code{\link{text.LongCART}}, \code{\link{ProfilePlot.LongCART}}, \code{\link{StabCat}}, \code{\link{StabCont}}
+\code{\link{plot}}, \code{\link{text}}, \code{\link{ProfilePlot}}, \code{\link{StabCat}}, \code{\link{StabCont}}, \code{\link{predict}}
 }
 
 \examples{
@@ -82,8 +86,7 @@ plot(out1, compress = TRUE)
 text(out1, use.n = TRUE)
 
 #--- Plot longitudinal profiles of subgroups
-par(mfrow=c(3,3))
-ProfilePlot.LongCART(x=out1, timevar="time")
+ProfilePlot(x=out1, timevar="time")
 
 #-----------------------------------------------#
 #   model: cd4~ time+ time^2 + subject(random)  #
@@ -101,8 +104,7 @@ par(xpd = TRUE)
 plot(out2, compress = TRUE)
 text(out2, use.n = TRUE)
 
-par(mfrow=c(3,3))
-ProfilePlot.LongCART(x=out2, timevar="time", timevar.power=c(1,2))
+ProfilePlot(x=out2, timevar="time", timevar.power=c(1,2))
 
 
 #--------------------------------------------------------#
@@ -120,12 +122,10 @@ plot(out3, compress = TRUE)
 text(out3, use.n = TRUE)
 
 #the value of the covariate karnof is set at median by default
-par(mfrow=c(3,3))
-ProfilePlot.LongCART(x=out3, timevar="time", timevar.power=c(1,2, NA)) 
+ProfilePlot(x=out3, timevar="time", timevar.power=c(1,2, NA)) 
 
 #the value of the covariate karnof is set at 120
-par(mfrow=c(3,3))
-ProfilePlot.LongCART(x=out3, timevar="time", timevar.power=c(1,2, NA), 
+ProfilePlot(x=out3, timevar="time", timevar.power=c(1,2, NA), 
                      covariate.val=c(NA, NA, 120)) 
 
 }

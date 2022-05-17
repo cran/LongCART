@@ -105,7 +105,9 @@ The Predictive power or Predictive probability of success (PPoS) is calculated b
 }
 
 \author{Madan Gopal Kundu <madan_g.kundu@yahoo.com>}
-
+\references{
+Kundu, M. G., Samanta, S., and Mondal, S. (2021). An introduction to the determination of the probability of a successful trial: Frequentist and Bayesian approaches. arXiv preprint arXiv:2102.13550.
+}
 \seealso{\code{\link{succ_ia_betabinom_one}}, \code{\link{succ_ia_betabinom_two}}, \code{\link{PoS}}   }
 
 \examples{

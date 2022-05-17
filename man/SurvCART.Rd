@@ -7,7 +7,7 @@ data per SurvCART algorithm based on baseline partitioning variables (Kundu, 202
 \usage{
 SurvCART(data, patid, timevar, censorvar, gvars, tgvars, 
          time.dist="exponential", cens.dist="NA", event.ind=1, 
-         alpha=0.05, minsplit=40, minbucket=20, print=FALSE)
+         alpha=0.05, minsplit=40, minbucket=20, quantile=0.50, print=FALSE)
 }
 \arguments{
 \item{data}{name of the dataset. It must contain variable specified for \code{patid} (indicating subject id), all the variables specified in the formula and the baseline partitioning variables.}
@@ -21,7 +21,8 @@ SurvCART(data, patid, timevar, censorvar, gvars, tgvars,
 \item{event.ind}{value of the censoring variable indicating event.}
 \item{alpha}{alpha (i.e., nominal type I error) level for parameter instability test}
 \item{minsplit}{the minimum number of observations that must exist in a node in order for a split to be attempted.}
-\item{minbucket}{he minimum number of observations in any terminal node.}
+\item{minbucket}{the minimum number of observations in any terminal node.}
+\item{quantile}{The quantile to be displayed in the visualization of tree through \code{plot.SurvCART()} or \code{plot()}.}
 \item{print}{if \code{TRUE}, then summary such as number of subjects at risk, number of events, median event time and median censoring time model will be printed for each node.}
 }
 \details{
@@ -42,7 +43,12 @@ Normal distribution: f(t)=(1/sqrt(2*pi*sigma^2))*exp[-(1/2)*{(t-mu)/sigma}^2]
 \item{logLik.root}{log-likelihood at the root node (i.e., without tree structure), based on Cox model without any covariate  }
 \item{AIC.tree}{AIC of the tree-structured model, based on Cox model including sub-groups as covariates}
 \item{AIC.root}{AIC at the root node (i.e., without tree structure), based on Cox model without any covariate }
-\item{subj.class}{Assigned node for each individual subjects per fitted longitudinal tree}
+\item{nodelab}{List of subgroups or terminal nodes with their description}
+\item{varnam}{List of splitting variables}
+\item{ds}{the dataset originally supplied}
+\item{event.ind}{value of the censoring variable indicating event.}
+\item{timevar}{name of the variable with follow-up times}
+\item{censorvar}{name of the variable with censoring status}
 \item{frame}{rpart compatible object}
 \item{splits}{rpart compatible object}
 \item{cptable}{rpart compatible object}
@@ -51,14 +57,16 @@ Normal distribution: f(t)=(1/sqrt(2*pi*sigma^2))*exp[-(1/2)*{(t-mu)/sigma}^2]
 \author{ Madan Gopal Kundu \email{madan_g.kundu@yahoo.com}}
 
 \references{
-Kundu, M. G.(2020). Survival trees based on score based parameter instability test. 
+Kundu, M. G., and Ghosh, S. (2021). Survival trees based on heterogeneity in time-to-event and censoring distributions using parameter instability test. Statistical Analysis and Data Mining: The ASA Data Science Journal, 14(5), 466-483.
 }
 \seealso{
-\code{\link{plot.SurvCART}}, \code{\link{KMPlot.SurvCART}}, \code{\link{text.SurvCART}}, \code{\link{StabCat.surv}}, \code{\link{StabCont.surv}}
+\code{\link{plot}}, \code{\link{KMPlot}}, \code{\link{text}}, \code{\link{StabCat.surv}}, \code{\link{StabCont.surv}}
 }
 
 
 \examples{
+\donttest{
+
 #--- Get the data
 data(GBSG2)
 
@@ -81,9 +89,9 @@ par(xpd = TRUE)
 plot(out, compress = TRUE)
 text(out, use.n = TRUE)
 
-\donttest{
 #Plot KM plot for sub-groups identified by tree
-KMPlot.SurvCART(out, scale.time=365.25, type=1)
+KMPlot(out, xscale=365.25, type=1)
+KMPlot(out, xscale=365.25, type=2, overlay=FALSE, mfrow=c(2,2), xlab="Year", ylab="Survival prob.")
 
 
 #--- Run SurvCART() with time-to-event distribution: weibull censoring distribution: None  
